@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>林亞賢 ｜ 線上作品集</title>
+  <style>
+    :root {
+      --ink: #16203a;
+      --sub: #5e6a7b;
+      --line: #e7eaf0;
+      --bg: #f6f8fb;
+      --card: #fff;
+      --brand: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+
+    a {
+      color: var(--brand);
+    }
+
+    /* Header：左文字 右照片 */
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #0ea5a4);
+      color: #fff;
+      padding: 46px 0;
+    }
+
+    .head {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      flex-wrap: wrap;
+    }
+
+    .head .txt {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .head h1 {
+      font-size: clamp(26px, 3.6vw, 38px);
+    }
+
+    .head .role {
+      font-size: clamp(14px, 2vw, 17px);
+      opacity: .95;
+      margin-top: 6px;
+      letter-spacing: 1px;
+    }
+
+    .head p {
+      margin-top: 14px;
+      opacity: .92;
+      max-width: 54ch;
+      font-size: 14.5px;
+    }
+
+    .social {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .social a {
+      color: #fff;
+      background: rgba(255, 255, 255, .16);
+      padding: 7px 13px;
+      border-radius: 99px;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .social a:hover {
+      background: rgba(255, 255, 255, .28);
+    }
+
+    .photo {
+      width: 190px;
+      height: 235px;
+      border-radius: 18px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 3px solid rgba(255, 255, 255, .5);
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+    }
+
+    .photo .ph {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #dbe6ff;
+      font-size: 12px;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .sec-title {
+      font-size: 14px;
+      color: var(--sub);
+      letter-spacing: 2px;
+      margin: 38px 0 14px;
+    }
+
+    /* 主視覺：輪播 + 影片（改為上下排列） */
+    .show {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .car,
+    .video {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+    }
+
+    .slide.on {
+      display: block;
+    }
+
+    .shot {
+      aspect-ratio: 1/2;
+      background: #eef2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8a97a8;
+      font-size: 13px;
+      text-align: center;
+      padding: 18px;
+    }
+
+    .shot small {
+      display: block;
+      margin-top: 6px;
+      color: #aab4c3;
+    }
+
+    .car .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      cursor: pointer;
+    }
+
+    .dot.on {
+      background: var(--brand);
+    }
+
+    .nav {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 5px 11px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .video .vbox {
+      aspect-ratio: 16/9;
+      background: #0f172a;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 13px;
+      padding: 18px;
+    }
+
+    .video .cap {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--sub);
+    }
+
+    /* 作品卡片 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      padding-bottom: 46px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      transition: .15s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(20, 30, 60, .07);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      background: #eef4ff;
+      color: var(--brand);
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+
+    .card h3 {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .card .desc {
+      font-size: 13.5px;
+      color: var(--sub);
+    }
+
+    .card .stack {
+      font-size: 12px;
+      color: #8390a3;
+      margin-top: 9px;
+    }
+
+    .card .lnk {
+      font-size: 13px;
+      margin-top: 8px;
+      display: inline-block;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .repl {
+      background: #fff7ed;
+      color: #9a6a00;
+      border: 1px dashed #f59e0b;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    footer {
+      text-align: center;
+      color: #9aa4b2;
+      font-size: 12px;
+      padding: 24px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    footer a {
+      margin: 0 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="wrap head">
+      <div class="txt">
+        <h1>林亞賢 Adair Lin</h1>
+        <div class="role">全端 ｜ AI 應用 ｜ 網頁 / App 設計</div>
+        <p>自學一年，獨立開發多套「從設計到雲端部署、可線上試用」的系統——涵蓋全端 SaaS、AI/RAG 應用、行動 App、流程自動化。</p>
+        <div class="social">
+          <a href="https://www.instagram.com/morton17start/">Instagram</a>
+          <a href="https://www.facebook.com/profile.php?id=61589203050356&locale=zh_TW">Facebook</a>
+          <a href="https://www.linkedin.com/in/%E4%BA%9E%E8%B3%A2-%E6%9E%97-6a1525283/">LinkedIn</a>
+          <a href="https://github.com/mortonad">GitHub</a>
+          <a href="mailto:mortonadair@gmail.com">Email</a>
+        </div>
+      </div>
+      <div class="photo">
+        <!-- 把你的照片存成 photo.jpg 放同資料夾，會自動裁成頭肩比例 -->
+        <img src="photo.png" alt="林亞賢"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ph" style="display:none">照片放這裡<br><small>存成 photo.jpg 同資料夾</small></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <div class="sec-title">作品展示
+      <div class="show">
+        <div class="car" id="car">
+          <div class="slide on">
+            <img src="建站1.png" alt="智慧建站 Website Builder"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="法律實務4.png" alt="法律智慧助手"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="腎選2.png" alt="腎選·營養存摺"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="AZUN2.png" alt="找師傅 MatchApp"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="會議.png" alt="Google自動化會議助理"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="長照飲食.PNG" alt="長照醫療飲食 Agentic RAG 問答 MVP"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="vidostt.PNG" alt="VidoSTT 語音轉錄工具"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="原子生活.PNG" alt="Atomic Lifetime 習慣養成平台"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="101.PNG" alt="101 Ascent · Project Honnold"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="slide">
+            <img src="法律實務.PNG" alt="法務 Prompt 對齊助理 MVP"
+              style="width:100%;height:60vh;min-height:400px;max-height:600px;object-fit:contain;object-position:center;display:block;background:#f1f5f9;padding:12px;border-radius:10px;">
+          </div>
+          <div class="bar">
+            <button class="nav" onclick="mv(-1)">‹</button>
+            <div class="dots" id="dots"></div>
+            <button class="nav" onclick="mv(1)">›</button>
+          </div>
+        </div>
+        <div class="video">
+          <iframe src="https://www.youtube.com/embed/xWJYs5UDwMI?rel=0&modestbranding=1&autoplay=1&mute=1"
+            style="width:100%;aspect-ratio:16/9;border:0;display:block;"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+          <div class="cap">
+            🎥 Google會議自動化助理<br>
+            <a href="https://www.youtube.com/watch?v=xWJYs5UDwMI" target="_blank" style="color:var(--brand); text-decoration:none; font-size:13px; margin-top:4px; display:inline-block;">🔗 點此前往 YouTube 觀看完整影片 ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-title">全部作品（10 件 · 點連結看實機）</div>
+      <div class="grid">
+
+        <div class="card">
+          <div class="tags"><span class="tag">全端</span><span class="tag">SaaS</span><span class="tag">No-Code</span>
+          </div>
+          <h3>智慧建站 Website Builder · 視覺化建站平台</h3>
+          <div class="desc">拖拉式建站：JSON BlockConfig + RenderEngine 區塊引擎、後台數據儀表板、AI 社群腳本產生器。</div>
+          <div class="stack">React · JSON-driven Render Engine · 後台儀表板</div>
+          <span class="lnk" style="color:#94a3b8;font-weight:500">🚧 持續開發、即將上線</span>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">AI</span><span class="tag">RAG</span><span class="tag">全端</span></div>
+          <h3>法律智慧助手 AI Legal Agent</h3>
+          <div class="desc">台灣本地化法律 AI：RAG 知識庫、情境式問答、文件 OCR 編輯、網路蒐證、Free/Pro 分層。</div>
+          <div class="stack">RAG · LLM · 向量檢索 · OCR · 全端</div>
+          <span class="lnk" style="color:#94a3b8;font-weight:500">🚧 持續開發、即將上線</span>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">行動 App</span><span class="tag">健康</span><span class="tag">OCR</span></div>
+          <h3>腎選 · 營養存摺</h3>
+          <div class="desc">CKD 飲食追蹤 App：發票 QR／成分表 OCR 掃描、營養儀表板（熱量/蛋白/鈉/磷）、遊戲化點數等級。</div>
+          <div class="stack">行動 App · OCR · 健康數據 · 遊戲化</div>
+          <span class="lnk" style="color:#94a3b8;font-weight:500">🚧 持續開發、即將上線</span>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">行動 App</span><span class="tag">媒合</span><span class="tag">地圖</span></div>
+          <h3>找師傅 MatchApp</h3>
+          <div class="desc">藍領師傅雙邊媒合：swipe 配對、地圖探索附近師傅（Leaflet）、聊天、長輩放大模式。</div>
+          <div class="stack">React · Leaflet 地圖 · 雙邊媒合 · RWD</div>
+          <span class="lnk" style="color:#94a3b8;font-weight:500">🚧 持續開發、即將上線</span>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">自動化</span><span class="tag">AI</span><span class="tag">Multi-Agent</span>
+          </div>
+          <h3>Google會議自動化助理</h3>
+          <div class="desc">錄音丟 Drive → 背景自動產出 Google Doc 紀錄（摘要/決議/待辦）+ Tasks，每 5 分鐘自動觸發。</div>
+          <div class="stack">Google Apps Script · Gemini Multi-Agent · Drive/Docs/Tasks API</div>
+          <a class="lnk" href="#">展示頁 ↗</a>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">AI</span><span class="tag">Agent</span><span class="tag">RAG</span></div>
+          <h3>長照醫療飲食 Agentic RAG 問答 MVP</h3>
+          <div class="desc">Tool-calling 強制查 RAG 再答（降幻覺）、向量檢索、依病患特徵合成個人化飲食建議。</div>
+          <div class="stack">Python · LangChain（ReAct）· FAISS · Gemini</div>
+          <a class="lnk" href="https://colab.research.google.com/drive/1ANjPlrA54zBV3eyNTr9N9NE6fI0mUlbW">Colab ↗</a>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">AI</span><span class="tag">語音</span></div>
+          <h3>VidoSTT 語音轉錄工具</h3>
+          <div class="desc">端到端轉錄：Whisper 封裝進 Colab、一鍵 SOP、自動產 SRT 字幕，附導覽站降低門檻。</div>
+          <div class="stack">Python · OpenAI Whisper · Colab · Google Sites</div>
+          <a class="lnk" href="https://sites.google.com/view/vidostt/">網站 ↗</a>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">前端</span><span class="tag">UI/UX</span></div>
+          <h3>Atomic Lifetime 習慣養成平台</h3>
+          <div class="desc">把 SH Framework 習慣理論轉成互動式前端，SaaS 級留白美學與微動畫，元件化架構。</div>
+          <div class="stack">React · Tailwind CSS · RWD</div>
+          <a class="lnk" href="https://atomic-lifetime.netlify.app/">線上 Demo ↗</a>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">前端</span><span class="tag">即時協作</span></div>
+          <h3>101 Ascent · Project Honnold</h3>
+          <div class="desc">行動優先即時協作 Web App，4 小時內 0→雲端部署，Firebase 全域即時資料同步與互動特效。</div>
+          <div class="stack">React/JSX · Firebase Firestore · RWD</div>
+          <a class="lnk" href="https://101-honnold.netlify.app/">線上 Demo ↗</a>
+        </div>
+
+        <div class="card">
+          <div class="tags"><span class="tag">AI</span><span class="tag">Prompt Eng</span></div>
+          <h3>法務 Prompt 對齊助理 MVP</h3>
+          <div class="desc">Qwen2.5-72B（HF API）+ system-prompt 對齊台灣法規、低溫穩定、Gradio Before/After 對比。（誠實：Prompt 對齊，非 LoRA
+            訓練）
+          </div>
+          <div class="stack">HF Inference API · Prompt Engineering · Gradio</div>
+          <a class="lnk" href="https://colab.research.google.com/drive/1OYb68b6eUe5QUC8rTIpTrz9BhMEHb7Dq">Colab ↗</a>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      © 2026 林亞賢 Adair Lin · 全端 / AI 應用開發者（自學）· 作品皆個人獨立開發、可線上試用
+      <div style="margin-top:8px">
+        <a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a>
+        <a href="https://github.com/mortonad">GitHub</a><a href="mailto:mortonadair@gmail.com">Email</a>
+      </div>
+    </footer>
+
+    <script>
+      var s = document.querySelectorAll('.slide'), db = document.getElementById('dots'), c = 0;
+      s.forEach(function (_, i) { var d = document.createElement('div'); d.className = 'dot' + (i ? '' : ' on'); d.onclick = function () { go(i) }; db.appendChild(d); });
+      var dt = document.querySelectorAll('.dot');
+      function go(i) { s[c].classList.remove('on'); dt[c].classList.remove('on'); c = (i + s.length) % s.length; s[c].classList.add('on'); dt[c].classList.add('on'); }
+      function mv(n) { go(c + n); }
+      setInterval(function () { mv(1); }, 4000);   // 自動輪播
+    </script>
+</body>
+
+</html>
